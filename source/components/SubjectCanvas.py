@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import tkinter as tk
+from typing import Callable
 
-from source._constants import *
+from source._constants import FONT_NAME, TITLE_FONT_SIZE, TEXT_FONT_SIZE
 
 
 class SubjectCanvas(tk.Frame):
@@ -15,7 +16,7 @@ class SubjectCanvas(tk.Frame):
         sections (list[dict]): A list of dictionaries representing sections with buttons.
     """
 
-    def __init__(self, master: tk.Widget, sections: list[dict]):
+    def __init__(self, master: tk.Widget, sections: list[dict], show_difficulty_callback: Callable[[str], None]):
         """
         Initialize the SubjectCanvas.
 
@@ -24,6 +25,8 @@ class SubjectCanvas(tk.Frame):
             sections (list[dict]): A list of dictionaries representing sections with buttons.
         """
         super().__init__(master)
+
+        self.show_difficulty_callback = show_difficulty_callback
 
         self.column_number = 2
         for i in range(self.column_number):
@@ -56,11 +59,11 @@ class SubjectCanvas(tk.Frame):
 
         for button in buttons:
             button_label = button.get("label", "")
-            button_callback = button.get("callback", None)
+            game_type = button.get("game_type", None)
 
             if button_label:
                 button = tk.Button(self, text=button_label, font=(
-                    FONT_NAME, TEXT_FONT_SIZE), command=button_callback)
+                    FONT_NAME, TEXT_FONT_SIZE), command=lambda g=game_type: self.show_difficulty_callback(game_type=g))
                 button.grid(row=row, column=column,
                             padx=10, pady=10, sticky=tk.NSEW)
                 column += 1
@@ -78,29 +81,29 @@ class MathsCanvas(SubjectCanvas):
 
     Attributes:
         master (tk.Widget): The parent widget where the canvas will be placed.
-        sound_number_callback (callable): The callback for the "Son vers Nombre" button.
-        sound_word_callback (callable): The callback for the "Son vers Mot" button.
-        count_callback (callable): The callback for the "Compter" button.
+        sound_number_callback (Callable): The callback for the "Son vers Nombre" button.
+        sound_word_callback (Callable): The callback for the "Son vers Mot" button.
+        count_callback (Callable): The callback for the "Compter" button.
     """
 
-    def __init__(self, master: tk.Widget, sound_number_callback: callable, sound_word_callback: callable, count_callback: callable):
+    def __init__(self, master: tk.Widget, show_difficulty_callback: Callable[[str], None]):
         self.sections = [
             {
                 "title": "Écriture du nombre",
                 "buttons": [
-                    {"label": "Son vers Nombre", "callback": sound_number_callback},
-                    {"label": "Son vers Mot", "callback": sound_word_callback}
+                    {"label": "Son vers Nombre", "game_type": "sound-to-number"},
+                    {"label": "Son vers Mot", "game_type": "sound-to-word"}
                 ]
             },
             {
                 "title": "Dénombrement",
                 "buttons": [
-                    {"label": "Compter", "callback": count_callback},
+                    {"label": "Compter", "game_type": "count"},
                 ]
             }
         ]
 
-        super().__init__(master, self.sections)
+        super().__init__(master, self.sections, show_difficulty_callback)
 
 
 class SpellingCanvas(SubjectCanvas):
@@ -109,27 +112,27 @@ class SpellingCanvas(SubjectCanvas):
 
     Attributes:
         master (tk.Widget): The parent widget where the canvas will be placed.
-        simple_syllable_callback (callable): The callback for the "Son Simple : Syllabe" button.
-        simple_word_callback (callable): The callback for the "Son Simple : Mot" button.
-        complex_syllable_callback (callable): The callback for the "Son Complexe : Syllabe" button.
-        complex_word_callback (callable): The callback for the "Son Complexe : Mot" button.
+        simple_syllable_callback (Callable): The callback for the "Son Simple : Syllabe" button.
+        simple_word_callback (Callable): The callback for the "Son Simple : Mot" button.
+        complex_syllable_callback (Callable): The callback for the "Son Complexe : Syllabe" button.
+        complex_word_callback (Callable): The callback for the "Son Complexe : Mot" button.
     """
 
-    def __init__(self, master: tk.Widget, simple_syllable_callback: callable, simple_word_callback: callable, complex_syllable_callback: callable, complex_word_callback: callable):
+    def __init__(self, master: tk.Widget, show_difficulty_callback: Callable[[str], None]):
         self.sections = [
             {
                 "title": "Encodage",
                 "buttons": [
                     {"label": "Son Simple : Syllabe",
-                        "callback": simple_syllable_callback},
+                        "game_type": "simple-syllable"},
                     {"label": "Son Simple : Mot",
-                        "callback": simple_word_callback},
+                        "game_type": "simple-word"},
                     {"label": "Son Complexe : Syllabe",
-                        "callback": complex_syllable_callback},
+                        "game_type": "complex-syllable"},
                     {"label": "Son Complexe : Mot",
-                        "callback": complex_word_callback}
+                        "game_type": "complex-word"}
                 ]
             }
         ]
 
-        super().__init__(master, self.sections)
+        super().__init__(master, self.sections, show_difficulty_callback)

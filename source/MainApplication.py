@@ -3,12 +3,14 @@
 
 import tkinter as tk
 from PIL import ImageTk, Image
+from typing import Callable
 
 from source.components.Header import NavigationBar
 from source.components.SubjectCanvas import MathsCanvas, SpellingCanvas
 from source.components.DifficultyCanvas import DifficultyCanvas
-from source.components.TypingCanvas import TypingCanvas
-from source._constants import *
+from source.components.GameCanvas import TypingNumbersCanvas, TypingWordsCanvas, TypingCanvas
+from source.components.WorkInProgress import WorkInProgress
+from source._constants import APP_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, FAVICON_PATH, BACKGROUND, HEADER_BACKGROUND, FONT_NAME, TITLE_FONT_SIZE, FONT_COLOR, SUBJECT_TITLE, MATHEMATICS_TITLE, SPELLING_TITLE, DIFFICULTY_TITLE, WORK_IN_PROGRESS_TITLE, MATHEMATICS_IMAGE_PATH, SPELLING_IMAGE_PATH
 
 
 class MainApplication(tk.Tk):
@@ -30,19 +32,19 @@ class MainApplication(tk.Tk):
 
         self.title(APP_TITLE)
         self.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
-        self.resizable(0, 0)
+        self.resizable(False, False)
         self.iconphoto(False, tk.PhotoImage(file=FAVICON_PATH))
 
         self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure(0, weight=1)
-        self.grid_rowconfigure(1, weight=11)
+        self.grid_rowconfigure(0, weight=1)  # Header row
+        self.grid_rowconfigure(1, weight=11)  # Main row
 
         # Create a nav bar to display title
         self.nav_bar = NavigationBar(self, APP_TITLE)
         self.nav_bar.grid(row=0, column=0, sticky=tk.NSEW)
 
         # Create a main frame to hold content
-        self.main_frame = tk.Frame(self)
+        self.add_canvas(tk.Frame(self))
 
         # Initialize with
         self.show_main_canvas()
@@ -56,52 +58,48 @@ class MainApplication(tk.Tk):
         self.clear_main_frame()
 
         # Create the new main frame from main canvas
-        self.main_frame = MainCanvas(
-            self,  mathematics_callback=self.show_mathematics_canvas, spelling_callback=self.show_spelling_canvas)
-        self.main_frame.grid(row=1, column=0, sticky=tk.NSEW)
+        self.add_canvas(MainCanvas(
+            self, show_subject_canvas=self.show_subject_canvas))
 
         # Update the title for the navigation bar
         self.nav_bar.update_title(SUBJECT_TITLE)
         # Update the callback for the navigation bar
         self.nav_bar.update_callback(None)
 
-    def show_mathematics_canvas(self) -> None:
+    def show_subject_canvas(self, subject: str = None) -> None:
         """
-        Show the mathematics canvas.
+        Show the subject canvas.
 
-        Clears the main frame and shows the mathematics canvas.
-        """
-        self.clear_main_frame()
-
-        # Create the new main frame from main canvas
-        self.main_frame = MathsCanvas(
-            self, sound_number_callback=self.show_difficulty_canvas, sound_word_callback=self.show_difficulty_canvas, count_callback=self.show_difficulty_canvas)
-        self.main_frame.grid(row=1, column=0, sticky=tk.NSEW)
-
-        # Update the title for the navigation bar
-        self.nav_bar.update_title(MATHEMATICS_TITLE)
-        # Update the callback for the navigation bar
-        self.nav_bar.update_callback(self.show_main_canvas)
-
-    def show_spelling_canvas(self) -> None:
-        """
-        Show the spelling canvas.
-
-        Clears the main frame and shows the spelling canvas.
+        Args:
+            subject (str): "mathematics" or "spelling".
         """
         self.clear_main_frame()
 
+        # If subject is specified, use subject to show the corresponding canvas, otherwise use self.subject
+        if subject:
+            self.subject = subject
+
+        if self.subject == "mathematics":
+            canvas = MathsCanvas(
+                self, show_difficulty_callback=self.show_difficulty_canvas)
+            header_title = MATHEMATICS_TITLE
+        elif self.subject == "spelling":
+            canvas = SpellingCanvas(
+                self, show_difficulty_callback=self.show_difficulty_canvas)
+            header_title = SPELLING_TITLE
+        else:
+            canvas = WorkInProgress(self)
+            header_title = WORK_IN_PROGRESS_TITLE
+
         # Create the new main frame from main canvas
-        self.main_frame = SpellingCanvas(
-            self, simple_syllable_callback=self.show_difficulty_canvas, simple_word_callback=self.show_difficulty_canvas, complex_syllable_callback=self.show_difficulty_canvas, complex_word_callback=self.show_difficulty_canvas)
-        self.main_frame.grid(row=1, column=0, sticky=tk.NSEW)
+        self.add_canvas(canvas)
 
         # Update the title for the navigation bar
-        self.nav_bar.update_title(SPELLING_TITLE)
+        self.nav_bar.update_title(header_title)
         # Update the callback for the navigation bar
         self.nav_bar.update_callback(self.show_main_canvas)
 
-    def show_difficulty_canvas(self) -> None:
+    def show_difficulty_canvas(self, game_type: str = None) -> None:
         """
         Show the difficulty canvas.
 
@@ -109,17 +107,26 @@ class MainApplication(tk.Tk):
         """
         self.clear_main_frame()
 
+        if game_type:
+            self.game_type = game_type
+
+        if game_type in {"sound-to-number", "sound-to-word"}:
+            canvas = DifficultyCanvas(
+                self, game_type=self.game_type, show_game_canvas=self.show_game_canvas)
+            header_title = DIFFICULTY_TITLE
+        else:
+            canvas = WorkInProgress(self)
+            header_title = WORK_IN_PROGRESS_TITLE
+
         # Create the new main frame from difficulty canvas
-        self.main_frame = DifficultyCanvas(
-            self, difficulty_callback=self.show_typing_canvas)
-        self.main_frame.grid(row=1, column=0, sticky=tk.NSEW)
+        self.add_canvas(canvas)
 
         # Update the title for the navigation bar
-        self.nav_bar.update_title(DIFFICULTY_TITLE)
+        self.nav_bar.update_title(header_title)
         # Update the callback for the navigation bar
-        self.nav_bar.update_callback(self.show_main_canvas)
+        self.nav_bar.update_callback(self.show_subject_canvas)
 
-    def show_typing_canvas(self, difficulty: int) -> None:
+    def show_game_canvas(self, game_type: str = None, difficulty: int = None) -> None:
         """
         Show the typing canvas with a specific difficulty level.
 
@@ -130,18 +137,45 @@ class MainApplication(tk.Tk):
         """
         self.clear_main_frame()
 
+        if difficulty:
+            self.difficulty = difficulty
+
+        if game_type:
+            self.game_type = game_type
+
+        # Select the new main frame
+        if game_type == "sound-to-number":
+            canvas = TypingNumbersCanvas(self, self.difficulty)
+            header_title = "Écoute et écris en chiffres"
+        elif game_type == "sound-to-word":
+            canvas = TypingWordsCanvas(self, self.difficulty)
+            header_title = "Écoute et écris en mots"
+        else:
+            canvas = WorkInProgress(self)
+            header_title = WORK_IN_PROGRESS_TITLE
+
         # Create the new main frame from difficulty canvas
-        self.main_frame = TypingCanvas(self, difficulty)
-        self.main_frame.grid(row=1, column=0, sticky=tk.NSEW)
+        self.add_canvas(canvas)
 
         # Update the title for the navigation bar
-        self.nav_bar.update_title(
-            f"Écoute et écris en chiffres (entre 0 et {difficulty})")
+        self.nav_bar.update_title(header_title)
         # Update the callback for the navigation bar
-        self.nav_bar.update_callback(self.show_difficulty_canvas)
+        self.nav_bar.update_callback(
+            lambda g=game_type: self.show_difficulty_canvas(game_type=g))
+
+    def add_canvas(self, Canvas: tk.Widget) -> None:
+        """
+        Add Canvas to main frame
+
+        Args:
+            Canvas (tk.Widget): The Canvas to add to the main frame
+        """
+        self.main_frame = Canvas
+        self.main_frame.grid(row=1, column=0, sticky=tk.NSEW)
 
     def clear_main_frame(self) -> None:
-        """Clear the main frame by destroying its content."""
+        """Clear the main frame by destroying its content.
+        """
         self.main_frame.destroy()
 
 
@@ -154,17 +188,18 @@ class MainCanvas(tk.Frame):
         spelling_button (tk.Button): Button for selecting Spelling.
     """
 
-    def __init__(self, master: tk.Widget, mathematics_callback: callable, spelling_callback: callable):
+    def __init__(self, master: tk.Widget, show_subject_canvas: Callable[[str], None]):
         """
         Initialize the MainCanvas.
 
         Args:
             master (tk.Widget): The parent widget where the canvas will be placed.
-            mathematics_callback (callable): The callback for selecting Mathematics.
-            spelling_callback (callable): The callback for selecting Spelling.
+            show_subject_canvas (Callable): The callback for showing the subject.
         """
         super().__init__(master)
         self.grid_columnconfigure(0, weight=1)
+
+        self.config(bg=BACKGROUND)
 
         self.maths_image = ImageTk.PhotoImage(
             Image.open(MATHEMATICS_IMAGE_PATH).resize((80, 80)))
@@ -172,11 +207,11 @@ class MainCanvas(tk.Frame):
             Image.open(SPELLING_IMAGE_PATH).resize((80, 80)))
 
         self.sound_letter_button = tk.Button(
-            self, height=150, width=300, text=MATHEMATICS_TITLE, font=(FONT_NAME, TITLE_FONT_SIZE), image=self.maths_image, compound=tk.TOP, command=mathematics_callback)
+            self, height=150, width=300, text=MATHEMATICS_TITLE, font=(FONT_NAME, TITLE_FONT_SIZE), bg=HEADER_BACKGROUND, fg=FONT_COLOR, bd=5, relief="ridge", highlightcolor=FONT_COLOR, image=self.maths_image, compound=tk.TOP, command=lambda: show_subject_canvas("mathematics"))
         self.sound_letter_button.grid(
             row=0, column=0, padx=10, pady=20, sticky=tk.NS)
 
         self.sound_number_button = tk.Button(
-            self, height=150, width=300, text=SPELLING_TITLE, font=(FONT_NAME, TITLE_FONT_SIZE), image=self.spelling_image, compound=tk.TOP, command=spelling_callback)
+            self, height=150, width=300, text=SPELLING_TITLE, font=(FONT_NAME, TITLE_FONT_SIZE), bg=HEADER_BACKGROUND, fg=FONT_COLOR, bd=5, relief="ridge", highlightcolor=FONT_COLOR, image=self.spelling_image, compound=tk.TOP, command=lambda: show_subject_canvas("spelling"))
         self.sound_number_button.grid(
             row=1, column=0, padx=10, pady=20, sticky=tk.NS)

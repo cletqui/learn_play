@@ -3,8 +3,9 @@
 
 import tkinter as tk
 from PIL import ImageTk, Image
+from typing import Callable
 
-from source._constants import *
+from source._constants import HEADER_BACKGROUND, FONT_NAME, TITLE_FONT_SIZE, FONT_COLOR, ARROW_IMAGE_PATH
 
 
 class BackButton(tk.Button):
@@ -13,21 +14,22 @@ class BackButton(tk.Button):
 
     Attributes:
         master (tk.Widget): The parent widget where the back button will be placed.
-        callback (callable): The callback function to be executed when the button is clicked.
+        callback (Callable): The callback function to be executed when the button is clicked.
     """
 
-    def __init__(self, master: tk.Widget, callback: callable):
+    def __init__(self, master: tk.Widget, callback: Callable):
         """
         Initialize the BackButton widget.
 
         Args:
             master (tk.Widget): The parent widget where the back button will be placed.
-            callback (callable): The callback function to be executed when the button is clicked.
+            callback (Callable): The callback function to be executed when the button is clicked.
         """
         super().__init__(master, width=50)
         self.callback = callback
         self.back_image = ImageTk.PhotoImage(
             Image.open(ARROW_IMAGE_PATH).resize((40, 40)).rotate(180))
+        self.config(relief="raised")
 
         if callback:
             self.config(image=self.back_image, command=callback)
@@ -70,20 +72,22 @@ class NavigationBar(tk.Frame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
 
+        self.config(bg=HEADER_BACKGROUND)
+
         # Create a label for the title
         self.title_label = tk.Label(self, text=title, font=(
-            FONT_NAME, TITLE_FONT_SIZE, "underline"), anchor="center")
+            FONT_NAME, TITLE_FONT_SIZE, "bold"), anchor="center", bg=HEADER_BACKGROUND, fg=FONT_COLOR)
         self.title_label.grid(row=0, column=0, columnspan=4, padx=10, pady=20)
 
         # Create a button for the callback button
         self.back_button = BackButton(self, None)
 
-    def update_callback(self, callback: callable) -> None:
+    def update_callback(self, callback: Callable) -> None:
         """
         Update the callback function and show/hide the back button accordingly.
 
         Args:
-            callback (callable): The callback function to associate with the back button.
+            callback (Callable): The callback function to associate with the back button.
         """
         self.back_button.callback = callback
         self.back_button.update_callback()

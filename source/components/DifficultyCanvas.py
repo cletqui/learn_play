@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import tkinter as tk
+from typing import Callable
 
-from source._constants import *
+from source._constants import FONT_NAME, TEXT_FONT_SIZE
 
 
 class DifficultyCanvas(tk.Frame):
-    def __init__(self, master, difficulty_callback):
+    def __init__(self, master: tk.Widget, game_type: str, show_game_canvas: Callable[[str, int], None]):
         super().__init__(master)
 
         self.grid_columnconfigure(0, weight=1)
@@ -25,7 +26,7 @@ class DifficultyCanvas(tk.Frame):
             difficulty_button.grid(
                 row=row, column=column, padx=10, pady=10, sticky=tk.NSEW)
             difficulty_button.config(
-                command=lambda d=difficulty: difficulty_callback(d))
+                command=lambda d=difficulty, g=game_type: show_game_canvas(game_type=g, difficulty=d))
 
             column += 1
             if column >= 3:
