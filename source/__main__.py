@@ -1,7 +1,8 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from source.MainApplication import MainApplication  # Import your tkinter window class
+# Import your tkinter window class
+from source.MainApplication import MainApplication
 
 
 def main():
