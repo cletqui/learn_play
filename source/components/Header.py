@@ -5,10 +5,11 @@ import tkinter as tk
 from PIL import ImageTk, Image
 from typing import Callable
 
-from source._constants import HEADER_BACKGROUND, FONT_NAME, TITLE_FONT_SIZE, FONT_COLOR, ARROW_IMAGE_PATH
+from source.utils.MyWidgets import InfoButton, HeaderLabel
+from source._constants import MAIN_COLOR, DARK_SHADE_COLOR, ARROW_IMAGE_PATH
 
 
-class BackButton(tk.Button):
+class BackButton(InfoButton):
     """
     A custom back button widget for the NavigationBar.
 
@@ -17,7 +18,7 @@ class BackButton(tk.Button):
         callback (Callable): The callback function to be executed when the button is clicked.
     """
 
-    def __init__(self, master: tk.Widget, callback: Callable):
+    def __init__(self, master: InfoButton, callback: Callable):
         """
         Initialize the BackButton widget.
 
@@ -29,8 +30,9 @@ class BackButton(tk.Button):
         self.callback = callback
         self.back_image = ImageTk.PhotoImage(
             Image.open(ARROW_IMAGE_PATH).resize((40, 40)).rotate(180))
-        self.config(relief="raised")
+        # TODO change image colors and rotate the arrow image
 
+        # If a callback is defined show the button, otherwise remove it from the grid
         if callback:
             self.config(image=self.back_image, command=callback)
             self.grid(row=0, column=0, padx=10, pady=10, sticky=tk.W)
@@ -58,7 +60,7 @@ class NavigationBar(tk.Frame):
         back_button (BackButton): The custom back button widget.
     """
 
-    def __init__(self, master: tk.Tk, title: str):
+    def __init__(self, master: tk.Frame, title: str):
         """
         Initialize the NavigationBar widget.
 
@@ -72,12 +74,12 @@ class NavigationBar(tk.Frame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
 
-        self.config(bg=HEADER_BACKGROUND)
+        self.config(bg=MAIN_COLOR,
+                    highlightbackground=DARK_SHADE_COLOR, highlightthickness=3)
 
         # Create a label for the title
-        self.title_label = tk.Label(self, text=title, font=(
-            FONT_NAME, TITLE_FONT_SIZE, "bold"), anchor="center", bg=HEADER_BACKGROUND, fg=FONT_COLOR)
-        self.title_label.grid(row=0, column=0, columnspan=4, padx=10, pady=20)
+        self.title_label = HeaderLabel(self, text=title)
+        self.title_label.grid(row=0, column=0, columnspan=2, padx=10, pady=20)
 
         # Create a button for the callback button
         self.back_button = BackButton(self, None)

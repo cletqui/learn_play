@@ -10,10 +10,11 @@ from gtts import gTTS
 import playsound
 import num2words
 
+from source.utils.MyWidgets import MyFrame
 from source._constants import FONT_NAME, TEXT_FONT_SIZE, RANDOM_NUMBER_SOUND_PATH, SOUND_IMAGE_PATH, MAGNIFYING_GLASS_IMAGE_PATH, CHECK_IMAGE_PATH, REFRESH_IMAGE_PATH, WARNING_IMAGE_PATH
 
 
-class TypingCanvas(tk.Frame):
+class TypingCanvas(MyFrame):
     def __init__(self, master: tk.Widget, difficulty: int):
         super().__init__(master)
 
@@ -124,9 +125,10 @@ class TypingCanvas(tk.Frame):
         self.input_entry.delete(0, tk.END)
 
 
-class InputCanvas(tk.Frame):
-    def __init__(self, master: tk.Widget, difficulty: int, validate: Callable[[int, int], bool]):
+class InputCanvas(MyFrame):
+    def __init__(self, master: MyFrame, difficulty: int, validate: Callable[[int, int], bool]):
         super().__init__(master)
+        # TODO factorize the default games into general classes
 
         self.grid_columnconfigure(0, weight=4)
         self.grid_columnconfigure(1, weight=1)

@@ -4,10 +4,10 @@
 import tkinter as tk
 from typing import Callable
 
-from source._constants import FONT_NAME, TITLE_FONT_SIZE, TEXT_FONT_SIZE
+from source.utils.MyWidgets import MyFrame, TitleLabel, PrimaryButton
 
 
-class SubjectCanvas(tk.Frame):
+class SubjectCanvas(MyFrame):
     """
     A customizable canvas for subject-specific content.
 
@@ -16,7 +16,7 @@ class SubjectCanvas(tk.Frame):
         sections (list[dict]): A list of dictionaries representing sections with buttons.
     """
 
-    def __init__(self, master: tk.Widget, sections: list[dict], show_difficulty_callback: Callable[[str], None]):
+    def __init__(self, master: MyFrame, sections: list[dict], show_difficulty_callback: Callable[[str], None]):
         """
         Initialize the SubjectCanvas.
 
@@ -25,6 +25,7 @@ class SubjectCanvas(tk.Frame):
             sections (list[dict]): A list of dictionaries representing sections with buttons.
         """
         super().__init__(master)
+        # TODO add images to understand the subjects
 
         self.show_difficulty_callback = show_difficulty_callback
 
@@ -51,8 +52,8 @@ class SubjectCanvas(tk.Frame):
         buttons = section.get("buttons", [])
         column = 0
 
-        title_label = tk.Label(
-            self, text=title, font=(FONT_NAME, TITLE_FONT_SIZE))
+        title_label = TitleLabel(
+            self, text=title)
         title_label.grid(row=row, column=0, columnspan=self.column_number,
                          padx=10, pady=10, sticky=tk.NSEW)
         row += 1
@@ -62,8 +63,8 @@ class SubjectCanvas(tk.Frame):
             game_type = button.get("game_type", None)
 
             if button_label:
-                button = tk.Button(self, text=button_label, font=(
-                    FONT_NAME, TEXT_FONT_SIZE), command=lambda g=game_type: self.show_difficulty_callback(game_type=g))
+                button = PrimaryButton(
+                    self, text=button_label, command=lambda g=game_type: self.show_difficulty_callback(game_type=g))
                 button.grid(row=row, column=column,
                             padx=10, pady=10, sticky=tk.NSEW)
                 column += 1
@@ -86,7 +87,7 @@ class MathsCanvas(SubjectCanvas):
         count_callback (Callable): The callback for the "Compter" button.
     """
 
-    def __init__(self, master: tk.Widget, show_difficulty_callback: Callable[[str], None]):
+    def __init__(self, master: SubjectCanvas, show_difficulty_callback: Callable[[str], None]):
         self.sections = [
             {
                 "title": "Écriture du nombre",
@@ -118,7 +119,7 @@ class SpellingCanvas(SubjectCanvas):
         complex_word_callback (Callable): The callback for the "Son Complexe : Mot" button.
     """
 
-    def __init__(self, master: tk.Widget, show_difficulty_callback: Callable[[str], None]):
+    def __init__(self, master: SubjectCanvas, show_difficulty_callback: Callable[[str], None]):
         self.sections = [
             {
                 "title": "Encodage",

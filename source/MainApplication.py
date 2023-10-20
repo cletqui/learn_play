@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import tkinter as tk
-from PIL import ImageTk, Image
-from typing import Callable
 
 from source.components.Header import NavigationBar
+from source.components.MainCanvas import MainCanvas
 from source.components.SubjectCanvas import MathsCanvas, SpellingCanvas
 from source.components.DifficultyCanvas import DifficultyCanvas
-from source.components.GameCanvas import TypingNumbersCanvas, TypingWordsCanvas, TypingCanvas
+from source.components.GameCanvas import TypingNumbersCanvas, TypingWordsCanvas
 from source.components.WorkInProgress import WorkInProgress
-from source._constants import APP_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, FAVICON_PATH, BACKGROUND, HEADER_BACKGROUND, FONT_NAME, TITLE_FONT_SIZE, FONT_COLOR, SUBJECT_TITLE, MATHEMATICS_TITLE, SPELLING_TITLE, DIFFICULTY_TITLE, WORK_IN_PROGRESS_TITLE, MATHEMATICS_IMAGE_PATH, SPELLING_IMAGE_PATH
+from source.utils.MyWidgets import MyFrame
+from source._constants import APP_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, FAVICON_PATH, SUBJECT_TITLE, MATHEMATICS_TITLE, SPELLING_TITLE, DIFFICULTY_TITLE, WORK_IN_PROGRESS_TITLE
 
 
 class MainApplication(tk.Tk):
@@ -36,15 +36,15 @@ class MainApplication(tk.Tk):
         self.iconphoto(False, tk.PhotoImage(file=FAVICON_PATH))
 
         self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure(0, weight=1)  # Header row
-        self.grid_rowconfigure(1, weight=11)  # Main row
+        self.grid_rowconfigure(0, weight=0)  # Header row
+        self.grid_rowconfigure(1, weight=1)  # Main row
 
         # Create a nav bar to display title
         self.nav_bar = NavigationBar(self, APP_TITLE)
         self.nav_bar.grid(row=0, column=0, sticky=tk.NSEW)
 
         # Create a main frame to hold content
-        self.add_canvas(tk.Frame(self))
+        self.add_canvas(MyFrame(self))
 
         # Initialize with
         self.show_main_canvas()
@@ -177,41 +177,3 @@ class MainApplication(tk.Tk):
         """Clear the main frame by destroying its content.
         """
         self.main_frame.destroy()
-
-
-class MainCanvas(tk.Frame):
-    """
-    A canvas for selecting a subject (Mathematics or Spelling).
-
-    Attributes:
-        mathematics_button (tk.Button): Button for selecting Mathematics.
-        spelling_button (tk.Button): Button for selecting Spelling.
-    """
-
-    def __init__(self, master: tk.Widget, show_subject_canvas: Callable[[str], None]):
-        """
-        Initialize the MainCanvas.
-
-        Args:
-            master (tk.Widget): The parent widget where the canvas will be placed.
-            show_subject_canvas (Callable): The callback for showing the subject.
-        """
-        super().__init__(master)
-        self.grid_columnconfigure(0, weight=1)
-
-        self.config(bg=BACKGROUND)
-
-        self.maths_image = ImageTk.PhotoImage(
-            Image.open(MATHEMATICS_IMAGE_PATH).resize((80, 80)))
-        self.spelling_image = ImageTk.PhotoImage(
-            Image.open(SPELLING_IMAGE_PATH).resize((80, 80)))
-
-        self.sound_letter_button = tk.Button(
-            self, height=150, width=300, text=MATHEMATICS_TITLE, font=(FONT_NAME, TITLE_FONT_SIZE), bg=HEADER_BACKGROUND, fg=FONT_COLOR, bd=5, relief="ridge", highlightcolor=FONT_COLOR, image=self.maths_image, compound=tk.TOP, command=lambda: show_subject_canvas("mathematics"))
-        self.sound_letter_button.grid(
-            row=0, column=0, padx=10, pady=20, sticky=tk.NS)
-
-        self.sound_number_button = tk.Button(
-            self, height=150, width=300, text=SPELLING_TITLE, font=(FONT_NAME, TITLE_FONT_SIZE), bg=HEADER_BACKGROUND, fg=FONT_COLOR, bd=5, relief="ridge", highlightcolor=FONT_COLOR, image=self.spelling_image, compound=tk.TOP, command=lambda: show_subject_canvas("spelling"))
-        self.sound_number_button.grid(
-            row=1, column=0, padx=10, pady=20, sticky=tk.NS)

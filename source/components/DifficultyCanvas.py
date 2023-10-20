@@ -4,12 +4,13 @@
 import tkinter as tk
 from typing import Callable
 
-from source._constants import FONT_NAME, TEXT_FONT_SIZE
+from source.utils.MyWidgets import MyFrame, PrimaryButton
 
 
-class DifficultyCanvas(tk.Frame):
-    def __init__(self, master: tk.Widget, game_type: str, show_game_canvas: Callable[[str, int], None]):
+class DifficultyCanvas(MyFrame):
+    def __init__(self, master: MyFrame, game_type: str, show_game_canvas: Callable[[str, int], None]):
         super().__init__(master)
+        # TODO implement other types of level/difficulty canvas
 
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
@@ -21,8 +22,7 @@ class DifficultyCanvas(tk.Frame):
         column = 0
 
         for difficulty in self.difficulties:
-            difficulty_button = tk.Button(
-                self, text=f"0 - {difficulty}", font=(FONT_NAME, TEXT_FONT_SIZE))
+            difficulty_button = PrimaryButton(self, text=f"0 - {difficulty}")
             difficulty_button.grid(
                 row=row, column=column, padx=10, pady=10, sticky=tk.NSEW)
             difficulty_button.config(
