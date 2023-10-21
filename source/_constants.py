@@ -1,19 +1,22 @@
+import os
+dirname = os.path.dirname(__file__)
+
 # Application window dimensions
 WINDOW_WIDTH: int = 900
 WINDOW_HEIGHT: int = 600
 
 # File paths for images
-# TODO import images directly here with: ImageTk.PhotoImage(Image.open(IMAGE_PATH))
-FAVICON_PATH: str = "source/assets/favicon.png"
-MATHEMATICS_IMAGE_PATH: str = "source/assets/maths.png"
-SPELLING_IMAGE_PATH: str = "source/assets/spelling.png"
-ARROW_IMAGE_PATH: str = "source/assets/arrow.png"
-SOUND_IMAGE_PATH: str = "source/assets/sound.png"
-MAGNIFYING_GLASS_IMAGE_PATH: str = "source/assets/magnifying-glass.png"
-CHECK_IMAGE_PATH: str = "source/assets/check.png"
-REFRESH_IMAGE_PATH: str = "source/assets/refresh.png"
-WARNING_IMAGE_PATH: str = "source/assets/warning.png"
-TRAFFIC_CONE_IMAGE_PATH: str = "source/assets/traffic-cone.png"
+# TODO deal with different path types (Linux, Windows)
+FAVICON_PATH: str = os.path.join(dirname, "assets", "favicon.png") # "source/assets/favicon.png"
+MATHEMATICS_IMAGE_PATH: str = os.path.join(dirname, "assets", "maths.png") # "source/assets/maths.png"
+SPELLING_IMAGE_PATH: str = os.path.join(dirname, "assets", "spelling.png") # "source/assets/spelling.png"
+ARROW_IMAGE_PATH: str = os.path.join(dirname, "assets", "arrow.png") # "source/assets/arrow.png"
+SOUND_IMAGE_PATH: str = os.path.join(dirname, "assets", "sound.png") # "source/assets/sound.png"
+MAGNIFYING_GLASS_IMAGE_PATH: str = os.path.join(dirname, "assets", "magnifying-glass.png") # "source/assets/magnifying-glass.png"
+CHECK_IMAGE_PATH: str = os.path.join(dirname, "assets", "check.png") # "source/assets/check.png"
+REFRESH_IMAGE_PATH: str = os.path.join(dirname, "assets", "refresh.png") # "source/assets/refresh.png"
+WARNING_IMAGE_PATH: str = os.path.join(dirname, "assets", "warning.png") # "source/assets/warning.png"
+TRAFFIC_CONE_IMAGE_PATH: str = os.path.join(dirname, "assets", "traffic-cone.png") # "source/assets/traffic-cone.png"
 
 # Created file paths
 RANDOM_NUMBER_SOUND_PATH = "random_number.mp3"

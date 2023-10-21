@@ -2,16 +2,15 @@
 
 
 a = Analysis(
-    ['app.py'],
-    pathex=['app.py'],
+    ['source/__main__.py'],
+    pathex=['source'],
     binaries=[],
-    datas=[('source','source')],
+    datas=[('source/assets','assets')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
     excludes=[],
-    cipher='AES-256'
     noarchive=False,
 )
 pyz = PYZ(a.pure)

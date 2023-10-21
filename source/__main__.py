@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Import your tkinter window class
-from source.MainApplication import MainApplication
+from MainApplication import MainApplication
 
 
 def main():

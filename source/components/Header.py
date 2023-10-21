@@ -5,8 +5,8 @@ import tkinter as tk
 from PIL import ImageTk, Image
 from typing import Callable
 
-from source.utils.MyWidgets import InfoButton, HeaderLabel
-from source._constants import MAIN_COLOR, DARK_SHADE_COLOR, ARROW_IMAGE_PATH
+from utils.MyWidgets import InfoButton, HeaderLabel
+from _constants import MAIN_COLOR, DARK_SHADE_COLOR, ARROW_IMAGE_PATH
 
 
 class BackButton(InfoButton):

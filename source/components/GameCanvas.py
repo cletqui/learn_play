@@ -10,8 +10,8 @@ from gtts import gTTS
 import playsound
 import num2words
 
-from source.utils.MyWidgets import MyFrame
-from source._constants import FONT_NAME, TEXT_FONT_SIZE, RANDOM_NUMBER_SOUND_PATH, SOUND_IMAGE_PATH, MAGNIFYING_GLASS_IMAGE_PATH, CHECK_IMAGE_PATH, REFRESH_IMAGE_PATH, WARNING_IMAGE_PATH
+from utils.MyWidgets import MyFrame
+from _constants import FONT_NAME, TEXT_FONT_SIZE, RANDOM_NUMBER_SOUND_PATH, SOUND_IMAGE_PATH, MAGNIFYING_GLASS_IMAGE_PATH, CHECK_IMAGE_PATH, REFRESH_IMAGE_PATH, WARNING_IMAGE_PATH
 
 
 class TypingCanvas(MyFrame):

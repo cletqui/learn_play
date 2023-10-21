@@ -5,8 +5,8 @@ import tkinter as tk
 from PIL import ImageTk, Image
 from typing import Callable
 
-from source.utils.MyWidgets import MyFrame, PrimaryButton
-from source._constants import LIGHT_SHADE_COLOR, MATHEMATICS_TITLE, SPELLING_TITLE, MATHEMATICS_IMAGE_PATH, SPELLING_IMAGE_PATH
+from utils.MyWidgets import MyFrame, PrimaryButton
+from _constants import LIGHT_SHADE_COLOR, MATHEMATICS_TITLE, SPELLING_TITLE, MATHEMATICS_IMAGE_PATH, SPELLING_IMAGE_PATH
 
 
 class MainCanvas(MyFrame):

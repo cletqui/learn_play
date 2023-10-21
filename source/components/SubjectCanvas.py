@@ -4,7 +4,7 @@
 import tkinter as tk
 from typing import Callable
 
-from source.utils.MyWidgets import MyFrame, TitleLabel, PrimaryButton
+from utils.MyWidgets import MyFrame, TitleLabel, PrimaryButton
 
 
 class SubjectCanvas(MyFrame):

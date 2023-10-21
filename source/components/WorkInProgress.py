@@ -4,8 +4,8 @@
 import tkinter as tk
 from PIL import ImageTk, Image
 
-from source.utils.MyWidgets import MyFrame, TextLabel
-from source._constants import TRAFFIC_CONE_IMAGE_PATH
+from utils.MyWidgets import MyFrame, TextLabel
+from _constants import TRAFFIC_CONE_IMAGE_PATH
 
 
 class WorkInProgress(MyFrame):

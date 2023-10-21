@@ -3,14 +3,14 @@
 
 import tkinter as tk
 
-from source.components.Header import NavigationBar
-from source.components.MainCanvas import MainCanvas
-from source.components.SubjectCanvas import MathsCanvas, SpellingCanvas
-from source.components.DifficultyCanvas import DifficultyCanvas
-from source.components.GameCanvas import TypingNumbersCanvas, TypingWordsCanvas
-from source.components.WorkInProgress import WorkInProgress
-from source.utils.MyWidgets import MyFrame
-from source._constants import APP_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, FAVICON_PATH, SUBJECT_TITLE, MATHEMATICS_TITLE, SPELLING_TITLE, DIFFICULTY_TITLE, WORK_IN_PROGRESS_TITLE
+from components.Header import NavigationBar
+from components.MainCanvas import MainCanvas
+from components.SubjectCanvas import MathsCanvas, SpellingCanvas
+from components.DifficultyCanvas import DifficultyCanvas
+from components.GameCanvas import TypingNumbersCanvas, TypingWordsCanvas
+from components.WorkInProgress import WorkInProgress
+from utils.MyWidgets import MyFrame
+from _constants import APP_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, FAVICON_PATH, SUBJECT_TITLE, MATHEMATICS_TITLE, SPELLING_TITLE, DIFFICULTY_TITLE, WORK_IN_PROGRESS_TITLE
 
 
 class MainApplication(tk.Tk):
