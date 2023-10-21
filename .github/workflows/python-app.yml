@@ -1,23 +1,25 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+# This workflow will install Python dependencies, create a release asset and upload it to the repository
 
-name: Python Tkinter application
+name: \"Learn & Play\" application
 
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
+    tags:
+      - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
 
 permissions:
   contents: read
 
 jobs:
-  build:
+  install-dependencies:
+    name: Install dependencies
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event for the branch ${{ github.ref }} of ${{ github.repository }}."
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Set up Python 3.10
         uses: actions/setup-python@v3
         with:
@@ -33,6 +35,28 @@ jobs:
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-      #    - name: Test with pytest
-      #      run: |
-      #        pytest
+      - run: echo "This job's status is ${{ job.status }}."
+
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event for the branch ${{ github.ref }} of ${{ github.repository }}."
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
+      - run: echo "This job's status is ${{ job.status }}."
