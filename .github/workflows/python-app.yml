@@ -35,9 +35,11 @@ jobs:
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-  create-release:
+  createrelease:
     name: Create Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Create Release
@@ -51,9 +53,9 @@ jobs:
           draft: false
           prerelease: false
       - name: Output Release URL File
-        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
+        run: echo "${{ steps.create_release.outputs.upload_url }}" > Release.txt
       - name: Save Release URL File for publish
         uses: actions/upload-artifact@v1
         with:
-          name: release_url
-          path: release_url.txt
+          name: Release
+          path: Release.txt
