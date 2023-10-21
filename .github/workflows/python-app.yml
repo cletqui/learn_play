@@ -6,7 +6,7 @@ on:
   push:
     branches: ["main"]
     tags:
-      - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
+      - "v*.*.*"
 
 permissions:
   contents: read
@@ -35,28 +35,13 @@ jobs:
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-      - run: echo "This job's status is ${{ job.status }}."
 
   create-release:
     name: Create Release
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event for the branch ${{ github.ref }} of ${{ github.repository }}."
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v3
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
-          draft: false
-          prerelease: false
-      - run: echo "This job's status is ${{ job.status }}."
+      - name: Release
+        uses: softprops/action-gh-release@v1
