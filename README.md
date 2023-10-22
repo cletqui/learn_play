@@ -20,8 +20,9 @@ Education doesn't have to be dull, and that's the philosophy behind **Apprends &
 
 ## Release
 
-You can find the latest version of the executable in [Releases](https://github.com/cletqui/learn_play/releases).
-The executable can be run with Windows. If necessary, the GitHub actions can be modified to deploy a MacOS compatible version too.
+You can find the latest version of the executable in [Releases](https://github.com/cletqui/learn_play/releases). The Tkinter application is compiled with GitHub Actions using PyInstaller and `app.spec`. The executable can be run with Windows. If necessary, the GitHub actions can be modified to deploy a MacOS compatible version too (by including MacOS in strategy matrix in `.github/workflows/python-app.yml`).
+
+[![Learn & Play application](https://github.com/cletqui/learn_play/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/cletqui/learn_play/actions/workflows/python-app.yml)
 
 ## Features
 
