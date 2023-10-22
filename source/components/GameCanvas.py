@@ -10,7 +10,7 @@ from gtts import gTTS
 import playsound
 import num2words
 
-from utils.MyWidgets import MyFrame
+from utils.MyWidgets import MyFrame, PrimaryButton, TextLabel
 from _constants import FONT_NAME, TEXT_FONT_SIZE, RANDOM_NUMBER_SOUND_PATH, SOUND_IMAGE_PATH, MAGNIFYING_GLASS_IMAGE_PATH, CHECK_IMAGE_PATH, REFRESH_IMAGE_PATH, WARNING_IMAGE_PATH
 
 
@@ -37,8 +37,8 @@ class TypingCanvas(MyFrame):
             Image.open(WARNING_IMAGE_PATH).resize((50, 50)))
 
         # Create a label with centered text
-        self.listen_button = tk.Button(self, text="Réécouter", font=(
-            FONT_NAME, TEXT_FONT_SIZE), image=self.listen_image, compound=tk.TOP)
+        self.listen_button = PrimaryButton(
+            self, text="Réécouter", image=self.listen_image)
         self.listen_button.grid(row=0, column=0, columnspan=2, pady=10)
         self.listen_button.config(command=self.listen_number)
         self.listen_button.bind
@@ -49,15 +49,14 @@ class TypingCanvas(MyFrame):
         self.input_entry.grid(row=1, column=0, padx=10,
                               pady=10, sticky=tk.NSEW)
 
-        self.check_button = tk.Button(self, width=120, text="   Vérifier", font=(
-            FONT_NAME, TEXT_FONT_SIZE), image=self.magnifying_glass_image, compound=tk.LEFT, command=self.check_number)
+        self.check_button = PrimaryButton(self, width=120, text="   Vérifier",
+                                          image=self.magnifying_glass_image, compound=tk.LEFT, command=self.check_number)
         self.check_button.grid(row=1, column=1, padx=10,
                                pady=10, sticky=tk.NSEW)
         self.input_entry.bind("<Return>", lambda _: self.check_number())
         self.input_entry.focus_set()
 
-        self.result_label = tk.Label(
-            self, text="", font=(FONT_NAME, TEXT_FONT_SIZE))
+        self.result_label = TextLabel(self, text="")
         self.result_label.grid(row=3, column=0,
                                columnspan=2, pady=(10, 0))
 
@@ -151,8 +150,8 @@ class InputCanvas(MyFrame):
             Image.open(WARNING_IMAGE_PATH).resize((50, 50)))
 
         # Create a label with centered text
-        self.listen_button = tk.Button(self, text="Réécouter", font=(
-            FONT_NAME, TEXT_FONT_SIZE), image=self.listen_image, compound=tk.TOP)
+        self.listen_button = PrimaryButton(
+            self, text="Réécouter", image=self.listen_image)
         self.listen_button.grid(row=0, column=0, columnspan=2, pady=10)
         self.listen_button.config(command=self.listen_number)
         self.listen_button.bind
@@ -163,15 +162,14 @@ class InputCanvas(MyFrame):
         self.input_entry.grid(row=1, column=0, padx=10,
                               pady=10, sticky=tk.NSEW)
 
-        self.check_button = tk.Button(self, width=120, text="   Vérifier", font=(
-            FONT_NAME, TEXT_FONT_SIZE), image=self.magnifying_glass_image, compound=tk.LEFT, command=self.check_number)
+        self.check_button = PrimaryButton(self, width=120, text="   Vérifier",
+                                          image=self.magnifying_glass_image, compound=tk.LEFT, command=self.check_number)
         self.check_button.grid(row=1, column=1, padx=10,
                                pady=10, sticky=tk.NSEW)
         self.input_entry.bind("<Return>", lambda _: self.check_number())
         self.input_entry.focus_set()
 
-        self.result_label = tk.Label(
-            self, text="", font=(FONT_NAME, TEXT_FONT_SIZE))
+        self.result_label = TextLabel(self, text="")
         self.result_label.grid(row=3, column=0,
                                columnspan=2, pady=(10, 0))
 
@@ -242,7 +240,7 @@ class InputCanvas(MyFrame):
 
 
 class TypingNumbersCanvas(InputCanvas):
-    def __init__(self, master: tk.Widget, difficulty: int):
+    def __init__(self, master: InputCanvas, difficulty: int):
         self.difficulty = difficulty
         super().__init__(master, difficulty=self.difficulty, validate=self.validate_function)
 
@@ -251,7 +249,7 @@ class TypingNumbersCanvas(InputCanvas):
 
 
 class TypingWordsCanvas(InputCanvas):
-    def __init__(self, master, difficulty: int):
+    def __init__(self, master: InputCanvas, difficulty: int):
         self.difficulty = difficulty
         super().__init__(master, difficulty=self.difficulty, validate=self.validate_function)
 

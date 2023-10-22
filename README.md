@@ -44,10 +44,12 @@ The **Apprends & Joue** project is structured as follows:
   - `source/MainApplication.py`: the core of the application, where the callback functions are defined.
   - **`source/assets/`** contains the assets (icon and images) for the application.
   - **`source/components/`** contains the main components of the application:
-    - `source/components/MainCanvas.py` : the main canvas of the application, where you choose your subject.
+    - `source/components/MainCanvas.py`: the main canvas of the application, where you choose your subject.
+    - `source/components/Header.py`: the header of the application.
     - `source/components/SubjectCanvas.py`: displays the available games for the selected subject.
     - `source/components/DifficultyCanvas.py`: allows you to choose the difficulty level for the games.
-    - `source/components/TypingCanvas.py`: the core of each game, where students practice their skills.
+    - `source/components/GameCanvas.py`: the core of each game, where students practice their skills.
+    - `source/components/WorkInProgress.py`: a blank page where the next games will be deployed.
   - **`source/utils/`** contains the utility assets (custom Tkinter widgets, custom functions):
     - `source/utils/MyWidgets.py`: the custom Tkinter widgets (font, colors, etc) for the application.
 
