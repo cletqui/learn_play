@@ -31,13 +31,13 @@ jobs:
           prerelease: false
       - name: Output Release URL File
         if: startsWith(github.ref, 'refs/tags/')
-        run: echo "${{ steps.create_release.outputs.upload_url }}" > Release.txt
+        run: echo "${{ steps.create_release.outputs.upload_url }}" > release.txt
       - name: Save Release URL File for publish
         uses: actions/upload-artifact@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: Release.txt
-          path: Release.txt
+          name: release
+          path: release.txt
 
   build-package:
     name: Build Package
@@ -77,12 +77,12 @@ jobs:
       - name: Load Release URL File from release job
         uses: actions/download-artifact@v1
         with:
-          name: release_url
+          name: release
       - name: Get Release File Name & Upload URL
         id: get_release_info
         shell: bash
         run: |
-          value=`cat release_url/release_url.txt`
+          value=`cat release/release.txt`
           echo ::set-output name=upload_url::$value
       - name: Upload Release Asset
         id: upload-release-asset
