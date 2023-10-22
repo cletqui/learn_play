@@ -6,7 +6,6 @@ WINDOW_WIDTH: int = 900
 WINDOW_HEIGHT: int = 600
 
 # File paths for images
-# TODO deal with different path types (Linux, Windows)
 FAVICON_PATH: str = os.path.join(dirname, "assets", "favicon.png") # "source/assets/favicon.png"
 MATHEMATICS_IMAGE_PATH: str = os.path.join(dirname, "assets", "maths.png") # "source/assets/maths.png"
 SPELLING_IMAGE_PATH: str = os.path.join(dirname, "assets", "spelling.png") # "source/assets/spelling.png"
