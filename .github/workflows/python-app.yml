@@ -1,6 +1,6 @@
 # This workflow will install Python dependencies, create a release asset and upload it to the repository
 
-name: \"Learn & Play\" application
+name: Learn & Play application
 
 on:
   push:
@@ -18,30 +18,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-      - name: Output Release URL File
-        if: startsWith(github.ref, 'refs/tags/')
-        run: echo "${{ steps.create_release.outputs.upload_url }}" > release.txt
-      - name: Save Release URL File for publish
-        uses: actions/upload-artifact@v1
+      - name: Build
+        run: echo ${{ github.sha }} > Release.txt
+      - name: Test
+        run: cat Release.txt
+      - name: Release
+        uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: release
-          path: release.txt
+          files: Release.txt
 
   build-package:
     name: Build Package
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: write
 
@@ -52,7 +41,6 @@ jobs:
             TARGET: windows
             CMD_BUILD: pyinstaller app.spec --noconfirm
             OUT_FILE_NAME: "Apprends & Joue.exe"
-            ASSET_MIME: application/vnd.microsoft.portable-executable
 
     steps:
       - name: Checkout
@@ -74,23 +62,9 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Build with pyinstaller for ${{matrix.TARGET}}
         run: ${{matrix.CMD_BUILD}}
-      - name: Load Release URL File from release job
-        uses: actions/download-artifact@v1
-        with:
-          name: release
-      - name: Get Release File Name & Upload URL
-        id: get_release_info
-        shell: bash
-        run: |
-          value=`cat release/release.txt`
-          echo ::set-output name=upload_url::$value
+        if: startsWith(github.ref, 'refs/tags/')
       - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: ./dist/${{ matrix.OUT_FILE_NAME}}
-          asset_name: ${{ matrix.OUT_FILE_NAME}}
-          asset_content_type: ${{ matrix.ASSET_MIME}}
+          files: ./dist/${{ matrix.OUT_FILE_NAME}}
