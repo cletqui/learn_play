@@ -1,21 +1,37 @@
 import os
+
 dirname = os.path.dirname(__file__)
+
+
+def image_path(image_name: str, dirname: str = dirname) -> str:
+    """
+    Returns the image path (images should be in the "assets" sub-directory).
+
+    Args:
+        image_name (str): The image name.
+        dirname (str, optional): The current directory name. Defaults to dirname.
+
+    Returns:
+        str: The image path.
+    """
+    return os.path.join(dirname, "assets", image_name)
+
 
 # Application window dimensions
 WINDOW_WIDTH: int = 900
 WINDOW_HEIGHT: int = 600
 
 # File paths for images
-FAVICON_PATH: str = os.path.join(dirname, "assets", "favicon.png") # "source/assets/favicon.png"
-MATHEMATICS_IMAGE_PATH: str = os.path.join(dirname, "assets", "maths.png") # "source/assets/maths.png"
-SPELLING_IMAGE_PATH: str = os.path.join(dirname, "assets", "spelling.png") # "source/assets/spelling.png"
-ARROW_IMAGE_PATH: str = os.path.join(dirname, "assets", "arrow.png") # "source/assets/arrow.png"
-SOUND_IMAGE_PATH: str = os.path.join(dirname, "assets", "sound.png") # "source/assets/sound.png"
-MAGNIFYING_GLASS_IMAGE_PATH: str = os.path.join(dirname, "assets", "magnifying-glass.png") # "source/assets/magnifying-glass.png"
-CHECK_IMAGE_PATH: str = os.path.join(dirname, "assets", "check.png") # "source/assets/check.png"
-REFRESH_IMAGE_PATH: str = os.path.join(dirname, "assets", "refresh.png") # "source/assets/refresh.png"
-WARNING_IMAGE_PATH: str = os.path.join(dirname, "assets", "warning.png") # "source/assets/warning.png"
-TRAFFIC_CONE_IMAGE_PATH: str = os.path.join(dirname, "assets", "traffic-cone.png") # "source/assets/traffic-cone.png"
+FAVICON_PATH: str = image_path("favicon.png")
+MATHEMATICS_IMAGE_PATH: str = image_path("maths.png")
+SPELLING_IMAGE_PATH: str = image_path("spelling.png")
+ARROW_IMAGE_PATH: str = image_path("arrow.png")
+SOUND_IMAGE_PATH: str = image_path("sound.png")
+MAGNIFYING_GLASS_IMAGE_PATH: str = image_path("magnifying-glass.png")
+CHECK_IMAGE_PATH: str = image_path("check.png")
+REFRESH_IMAGE_PATH: str = image_path("refresh.png")
+WARNING_IMAGE_PATH: str = image_path("warning.png")
+TRAFFIC_CONE_IMAGE_PATH: str = image_path("traffic-cone.png")
 
 # Created file paths
 RANDOM_NUMBER_SOUND_PATH = "random_number.mp3"

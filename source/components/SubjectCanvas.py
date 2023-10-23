@@ -99,6 +99,7 @@ class MathsCanvas(SubjectCanvas):
             {
                 "title": "Dénombrement",
                 "buttons": [
+                    {"label": "Comparer", "game_type": "compare"},
                     {"label": "Compter", "game_type": "count"},
                 ]
             }
