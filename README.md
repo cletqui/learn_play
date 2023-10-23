@@ -1,10 +1,10 @@
-# 📖 Apprends & Joue (Learn & Play) 🧑‍🏫
+# 📖 Apprends & Joue (Learn & Play) 🧮
 
-**Apprends & Joue** is a Tkinter-based educational game application designed to make learning mathematics and French spelling fun and engaging for primary school students. The application offers a variety of simple interactive games that promote learning while having a good time and learning to use a computer. 💻
+**Apprends & Joue** is a Tkinter-based educational game application designed to make learning mathematics and French spelling fun and engaging for primary school students. The application offers a variety of simple interactive games that promote learning while having a good time and learning to use a computer. 🖥️
 
 ## Table of Contents
 
-- [📖 Apprends \& Joue (Learn \& Play) 🧑‍🏫](#-apprends--joue-learn--play-)
+- [📖 Apprends \& Joue (Learn \& Play) 🧮](#-apprends--joue-learn--play-)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Release](#release)
