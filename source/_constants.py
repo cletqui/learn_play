@@ -5,14 +5,15 @@ dirname = os.path.dirname(__file__)
 
 def image_path(image_name: str, dirname: str = dirname) -> str:
     """
-    Returns the image path (images should be in the "assets" sub-directory).
+    Get the path of an image file.
 
     Args:
-        image_name (str): The image name.
-        dirname (str, optional): The current directory name. Defaults to dirname.
+        image_name: The name of the image file.
+        dirname: The directory name.
 
     Returns:
-        str: The image path.
+        str: The path of the image file.
+
     """
     return os.path.join(dirname, "assets", image_name)
 
@@ -27,6 +28,7 @@ MATHEMATICS_IMAGE_PATH: str = image_path("maths.png")
 SPELLING_IMAGE_PATH: str = image_path("spelling.png")
 ARROW_IMAGE_PATH: str = image_path("arrow.png")
 SOUND_IMAGE_PATH: str = image_path("sound.png")
+GREATER_EQUAL_IMAGE_PATH: str = image_path("greater-equal.png")
 MAGNIFYING_GLASS_IMAGE_PATH: str = image_path("magnifying-glass.png")
 CHECK_IMAGE_PATH: str = image_path("check.png")
 REFRESH_IMAGE_PATH: str = image_path("refresh.png")

@@ -11,20 +11,30 @@ from _constants import MAIN_COLOR, DARK_SHADE_COLOR, ARROW_IMAGE_PATH
 
 class BackButton(InfoButton):
     """
-    A custom back button widget for the NavigationBar.
+    A class representing a back button.
+
+    Args:
+        master: The master button.
+        callback: A callback function to be called when the button is clicked.
 
     Attributes:
-        master (tk.Widget): The parent widget where the back button will be placed.
-        callback (Callable): The callback function to be executed when the button is clicked.
+        callback (Callable): The callback function for the button.
+        back_image: The image for the back button.
+
     """
 
     def __init__(self, master: InfoButton, callback: Callable):
         """
-        Initialize the BackButton widget.
+        A class representing a back button.
 
         Args:
-            master (tk.Widget): The parent widget where the back button will be placed.
-            callback (Callable): The callback function to be executed when the button is clicked.
+            master: The master button.
+            callback: A callback function to be called when the button is clicked.
+
+        Attributes:
+            callback (Callable): The callback function for the button.
+            back_image: The image for the back button.
+
         """
         super().__init__(master, width=50)
         self.callback = callback
@@ -42,6 +52,10 @@ class BackButton(InfoButton):
     def update_callback(self) -> None:
         """
         Update the callback function and show/hide the button accordingly.
+
+        Returns:
+            None
+
         """
         if self.callback:
             self.config(image=self.back_image, command=self.callback)
@@ -52,21 +66,25 @@ class BackButton(InfoButton):
 
 class NavigationBar(tk.Frame):
     """
-    A custom navigation bar widget for your tkinter application.
+    A class representing a navigation bar.
+
+    Args:
+        master: The master frame.
+        title: The title of the navigation bar.
 
     Attributes:
-        master (tk.Tk): The master window or frame where the navigation bar will be placed.
-        title_label (tk.Label): The label widget for displaying the title.
-        back_button (BackButton): The custom back button widget.
-    """
+        title_label: The label for the title.
+        back_button: The button for the callback.
 
+    """
     def __init__(self, master: tk.Frame, title: str):
         """
-        Initialize the NavigationBar widget.
+        Initialize the NavigationBar.
 
         Args:
-            master (tk.Tk): The master window or frame where the navigation bar will be placed.
-            title (str): The initial title to display in the navigation bar.
+            master: The master frame.
+            title: The title of the navigation bar.
+
         """
         super().__init__(master)
 
@@ -86,19 +104,27 @@ class NavigationBar(tk.Frame):
 
     def update_callback(self, callback: Callable) -> None:
         """
-        Update the callback function and show/hide the back button accordingly.
+        Update the callback function for the back button.
 
         Args:
-            callback (Callable): The callback function to associate with the back button.
+            callback: A callback function to be called when the back button is clicked.
+
+        Returns:
+            None
+
         """
         self.back_button.callback = callback
         self.back_button.update_callback()
 
     def update_title(self, title: str) -> None:
         """
-        Update the title displayed in the navigation bar.
+        Update the title of the navigation bar.
 
         Args:
-            title (str): The new title to be displayed.
+            title: The new title.
+
+        Returns:
+            None
+
         """
         self.title_label["text"] = title

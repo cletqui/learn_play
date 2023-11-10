@@ -7,7 +7,7 @@ from components.Header import NavigationBar
 from components.MainCanvas import MainCanvas
 from components.SubjectCanvas import MathsCanvas, SpellingCanvas
 from components.DifficultyCanvas import DifficultyCanvas
-from components.GameCanvas import TypingNumbersCanvas, TypingWordsCanvas
+from components.GameCanvas import TypingNumbersCanvas, TypingWordsCanvas, CompareCanvas
 from components.WorkInProgress import WorkInProgress
 from utils.MyWidgets import MyFrame
 from _constants import APP_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, FAVICON_PATH, SUBJECT_TITLE, MATHEMATICS_TITLE, SPELLING_TITLE, DIFFICULTY_TITLE, WORK_IN_PROGRESS_TITLE
@@ -32,6 +32,7 @@ class MainApplication(tk.Tk):
 
         self.title(APP_TITLE)
         self.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
+        # Make the window not resizable (to avoid dealing with resizing designs)
         self.resizable(False, False)
         self.iconphoto(False, tk.PhotoImage(file=FAVICON_PATH))
 
@@ -77,6 +78,7 @@ class MainApplication(tk.Tk):
 
         # If subject is specified, use subject to show the corresponding canvas, otherwise use self.subject
         if subject:
+            print(f"Subject \"{subject}\" selected.")
             self.subject = subject
 
         if self.subject == "mathematics":
@@ -88,6 +90,7 @@ class MainApplication(tk.Tk):
                 self, show_difficulty_callback=self.show_difficulty_canvas)
             header_title = SPELLING_TITLE
         else:
+            print(f"Subject \"{subject}\" not yet supported...")
             canvas = WorkInProgress(self)
             header_title = WORK_IN_PROGRESS_TITLE
 
@@ -108,13 +111,15 @@ class MainApplication(tk.Tk):
         self.clear_main_frame()
 
         if game_type:
+            print(f"Subject \"{game_type}\" selected.")
             self.game_type = game_type
 
-        if game_type in {"sound-to-number", "sound-to-word"}:
+        if game_type in {"sound-to-number", "sound-to-word", "compare"}:
             canvas = DifficultyCanvas(
                 self, game_type=self.game_type, show_game_canvas=self.show_game_canvas)
             header_title = DIFFICULTY_TITLE
         else:
+            print(f"Game type \"{game_type}\" not yet supported...")
             canvas = WorkInProgress(self)
             header_title = WORK_IN_PROGRESS_TITLE
 
@@ -143,8 +148,13 @@ class MainApplication(tk.Tk):
         if game_type:
             self.game_type = game_type
 
+        print(f"Game type \"{game_type}\" in difficulty \"{difficulty}\" is selected.")
+
         # Select the new main frame
-        if game_type == "sound-to-number":
+        if game_type == "compare":
+            canvas == CompareCanvas(self, self.difficulty)
+            header_title = "Compare les nombres"
+        elif game_type == "sound-to-number":
             canvas = TypingNumbersCanvas(self, self.difficulty)
             header_title = "Écoute et écris en chiffres"
         elif game_type == "sound-to-word":

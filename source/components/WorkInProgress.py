@@ -10,19 +10,24 @@ from _constants import TRAFFIC_CONE_IMAGE_PATH
 
 class WorkInProgress(MyFrame):
     """
-    A canvas for selecting a subject (Mathematics or Spelling).
+    A class representing a work in progress frame.
+
+    Args:
+        master: The master frame.
 
     Attributes:
-        mathematics_button (tk.Button): Button for selecting Mathematics.
-        spelling_button (tk.Button): Button for selecting Spelling.
+        traffic_cone_image: The image of a traffic cone.
+        traffic_cone_label: The label for the traffic cone image.
+
     """
 
     def __init__(self, master: MyFrame):
         """
-        Initialize the MainCanvas.
+        Initialize the WorkInProgress frame.
 
         Args:
-            master (tk.Widget): The parent widget where the canvas will be placed.
+            master: The master frame.
+
         """
         super().__init__(master)
         self.grid_columnconfigure(0, weight=1)
