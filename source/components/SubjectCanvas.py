@@ -64,7 +64,7 @@ class SubjectSectionCanvas(MyFrame):
 
             if button_label:
                 button = PrimaryButton(
-                    self, text=button_label, command=lambda g=game_type: self.show_difficulty_callback(game_type=g))
+                    self, text=f"{button_label} ", command=lambda g=game_type: self.show_difficulty_callback(game_type=g))
 
                 if image_name:
                     if image_name == "sound":
