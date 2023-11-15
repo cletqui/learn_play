@@ -1,17 +1,25 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+Application Entry Point
+"""
+
 # Import your tkinter window class
-from MainApplication import MainApplication
+from main_application import MainApplication
 
 
 def main():
     """
-    The entry point of the application.
+    Runs the main application.
 
-    Runs the main application loop.
+    Returns:
+        None
 
+    Examples:
+        >>> main()
     """
+
     app = MainApplication()
     app.mainloop()
 

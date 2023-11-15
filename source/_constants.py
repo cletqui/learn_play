@@ -1,21 +1,29 @@
+"""
+Project Constants
+"""
+
 import os
 
 dirname = os.path.dirname(__file__)
 
 
-def image_path(image_name: str, dirname: str = dirname) -> str:
+def image_path(image_name: str, image_dir: str = dirname) -> str:
     """
-    Get the path of an image file.
+    Returns the path of an image file given its name and the directory name.
 
     Args:
-        image_name: The name of the image file.
-        dirname: The directory name.
+        image_name (str): The name of the image file.
+        image_dir (str, optional): The directory name. Defaults to dirname.
 
     Returns:
         str: The path of the image file.
 
+    Examples:
+        >>> image_path("logo.png")
+        '/path/to/assets/logo.png'
     """
-    return os.path.join(dirname, "assets", image_name)
+
+    return os.path.join(image_dir, "assets", image_name)
 
 
 # Application window dimensions
@@ -34,6 +42,10 @@ CHECK_IMAGE_PATH: str = image_path("check.png")
 REFRESH_IMAGE_PATH: str = image_path("refresh.png")
 WARNING_IMAGE_PATH: str = image_path("warning.png")
 TRAFFIC_CONE_IMAGE_PATH: str = image_path("traffic-cone.png")
+QUESTION_MARK_IMAGE_PATH: str = image_path("question-mark.png")
+EQUAL_IMAGE_PTH: str = image_path("equal.png")
+GREATER_IMAGE_PTH: str = image_path("greater.png")
+LOWER_IMAGE_PTH: str = image_path("lower.png")
 
 # Created file paths
 RANDOM_NUMBER_SOUND_PATH = "random_number.mp3"
