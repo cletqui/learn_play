@@ -40,7 +40,7 @@ jobs:
           - os: windows-latest
             TARGET: windows
             CMD_BUILD: pyinstaller app.spec --noconfirm
-            OUT_FILE_NAME: "Apprends et Joue.exe"
+            OUT_FILE_NAME: "Apprends_et_Joue.exe"
 
     steps:
       - name: Checkout
