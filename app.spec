@@ -21,7 +21,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='Apprends et Joue.exe',
+    name='Apprends_et_Joue.exe',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
