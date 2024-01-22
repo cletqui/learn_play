@@ -1,5 +1,5 @@
 gTTS==2.4.0
 num2words==0.5.12
-Pillow==10.0.1
+Pillow==10.2.0
 playsound==1.2.2
 pygame==2.5.2
